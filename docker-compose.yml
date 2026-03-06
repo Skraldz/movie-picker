@@ -1,0 +1,27 @@
+services:
+  mariadb:
+    image: lscr.io/linuxserver/mariadb:latest
+    container_name: movie_picker_db
+    networks:
+      - movienet
+    environment:
+      - PUID=1000
+      - GUID=1000
+      - TZ=Europe/Copenhagen
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./:/config
+    ports:
+      - 3306:3306
+    restart: unless-stopped
+
+  adminer:
+    image: adminer:latest
+    networks:
+      - movienet
+    restart: unless-stopped
+    ports:
+      - 3001:8080
+
+networks:
+  movienet:
