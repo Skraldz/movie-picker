@@ -1,3 +1,4 @@
 .env
 databases/
 log/
+venv/
