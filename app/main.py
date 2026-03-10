@@ -57,7 +57,7 @@ def add_movie(tmdb_id: int): # Which executes the add_movies function with the t
         db.add(movie_genre_link)
         db.commit()
 
-    for cast in movie_credits["cast"]:
+    for cast in movie_credits["cast"][:10]:
         existing_actor = db.query(Actor).filter(Actor.actor_name == cast["name"]).first()
         if not existing_actor:
             new_actor = Actor(actor_name=cast["name"])
@@ -75,10 +75,28 @@ def add_movie(tmdb_id: int): # Which executes the add_movies function with the t
     db.close() # closes the database
     return "Movie added succesfully!"  
 
- 
+@app.get("/movies/pick")
+def pick_movie(genre: str = None, max_length: int = None, seen: bool = None, released_from: int = None, released_to: int = None, actor: str = None):
+    db = SessionLocal()     # sets database as the local session
+    query = db.query(Movie) # when movies is requested via a GET to this function ..
+    
+    if seen is not None: # If the seen filter is NOT None
+        query = query.filter(Movie.seen == seen) # filters the query after the selected filter (seen or not seen)
+    if max_length is not None:
+        query = query.filter(Movie.how_long <= max_length)
+    if released_from is not None:
+        query = query.filter(Movie.released >= released_from)
+    if released_to is not None:
+        query = query.filter(Movie.released <= released_to)
+    if genre is not None:
+        query = query.join(Movie_genres).join(Genre).filter(Genre.genre == genre)
+    if actor is not None:
+        query = query.join(Movie_actors).join(Actor).filter(Actor.actor_name == actor)
     
     
-    
+    db.close() # Closes the database after the query
+    return query # Returns the full added movies list to the client. 
+
     
 
 
