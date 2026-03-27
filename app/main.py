@@ -105,6 +105,17 @@ def pick_movie(genre: str = None, max_length: int = None, seen: bool = None, rel
     db.close() # Closes the database after the query
     return random_result # Returns the full added movies list to the client. 
 
+"""Deletes a movie from the database"""
+@app.delete("/movies/{id}")
+def delete_movie(id: int):
+    db = SessionLocal() # Searches the local database
+    movie = db.query(Movie).filter(Movie.id == id).first() # filters for a movie with the queried ID in the database
+    if not movie: # If a movie cannot be matched on ID, print this message
+        return "Movie is not in the database, unable to delete."
+    db.delete(movie) # Delete movie from database, commit and return a success message
+    db.commit()
+    return "Movie has been deleted from the database"
+
     
 
 
