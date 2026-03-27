@@ -26,6 +26,8 @@ services:
   backend:
     build: ./app
     container_name: movie_picker_backend
+    env_file:
+      - .env
     networks:
       - movienet
     environment:
