@@ -26,6 +26,10 @@ def search(query: str): # Defines the search function and a string query
 def add_movie(tmdb_id: int): # Which executes the add_movies function with the tmdb_id
     movie_credits = get_movie_credits(tmdb_id) # TODO: implement actor saving to movie_actors table
     movie_details = get_movie_details(tmdb_id) # gets movie details from the tmdb_id
+    db = SessionLocal() # Sets database as the local session
+    movie = db.query(Movie).filter(Movie.tmdb_id == tmdb_id).first() # filters for a movie with the queried ID in the database
+    if movie: # If a movie cannot be matched on ID, print this message
+        return "Movie is already in the database."
     new_movie = Movie( #adds the new movie as a movie to the database
         title = movie_details["title"], # sets title as title from TMDB details
         how_long = movie_details["runtime"], # sets how_long as runtime from TMDB details
@@ -37,7 +41,7 @@ def add_movie(tmdb_id: int): # Which executes the add_movies function with the t
         country = None, # Will be set at a later date
         languages = movie_details["original_language"] # sets languages as original_language from TMDB details, should be updated to be its own table at some point because of dubs, multilang etc.
     )
-    db = SessionLocal() # Sets database as the local session
+
     db.add(new_movie) # adds (new_movie) to the database
     db.commit() # commits the changes to the database
     db.refresh(new_movie) # Refreshes the movie variable so it contains the unique database ID it gets when commited
@@ -114,6 +118,7 @@ def delete_movie(id: int):
         return "Movie is not in the database, unable to delete."
     db.delete(movie) # Delete movie from database, commit and return a success message
     db.commit()
+    db.close()
     return "Movie has been deleted from the database"
 
     
