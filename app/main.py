@@ -4,6 +4,7 @@ from database import SessionLocal # Imports the session that contains the databa
 from models import Movie, Actor, Genre, Movie_genres, Movie_actors # Imports the models to work in the database
 from tmdb import search_movies, get_movie_details, get_movie_credits # Imports the search movies function from tmdb.py
 from datetime import date # Imports the datetime library
+import random # Imports the random library
 app = FastAPI() # The chosen API for this projects backend
 
 @app.get("/")       # When someone makes a GET-request to /, run this function
@@ -80,6 +81,7 @@ def pick_movie(genre: str = None, max_length: int = None, seen: bool = None, rel
     db = SessionLocal()     # sets database as the local session
     query = db.query(Movie) # when movies is requested via a GET to this function ..
     
+    
     if seen is not None: # If the seen filter is NOT None
         query = query.filter(Movie.seen == seen) # filters the query after the selected filter (seen or not seen)
     if max_length is not None:
@@ -92,10 +94,16 @@ def pick_movie(genre: str = None, max_length: int = None, seen: bool = None, rel
         query = query.join(Movie_genres).join(Genre).filter(Genre.genre == genre)
     if actor is not None:
         query = query.join(Movie_actors).join(Actor).filter(Actor.actor_name == actor)
-    
-    
+
+    movies = query.all() # Searches the database for movies that match the filter
+
+    if not movies: # If there are no movies that matches, return this message
+        return "No movies matches the query, please broaden your search"
+        
+    random_result = random.choice(movies) # Picks a random movie from the ones that fit the query
+            
     db.close() # Closes the database after the query
-    return query # Returns the full added movies list to the client. 
+    return random_result # Returns the full added movies list to the client. 
 
     
 
