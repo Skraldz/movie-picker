@@ -23,5 +23,20 @@ services:
     ports:
       - 3001:8080
 
+  backend:
+    build: ./app
+    container_name: movie_picker_backend
+    networks:
+      - movienet
+    environment:
+      - PUID=1000
+      - GUID=1000
+      - TZ=Europe/Copenhagen
+    volumes:
+      - ./app:/app
+    ports:
+      - 8000:8000
+    restart: unless-stopped
+
 networks:
   movienet:
