@@ -5,7 +5,7 @@ from sqlalchemy.orm import DeclarativeBase
 class Base(DeclarativeBase): # The main interaction between our database and python - Declarative base is the way we add entries to each table
     pass  # Passes on arguments
 
-class Movie(Base): # Creats a class for the table movies in the database
+class Movie(Base): # Creates a class for the table movies in the database
     __tablename__ = "movies" # Assigns the class to the table name in the database
     id = Column(Integer, primary_key=True)
     title = Column(String(255))
