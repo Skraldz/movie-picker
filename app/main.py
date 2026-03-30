@@ -121,6 +121,13 @@ def delete_movie(id: int):
     db.close()
     return "Movie has been deleted from the database"
 
+@app.get("/genres")     # Queries the server to get all genres in the database
+def get_genres():
+    db = SessionLocal()     # sets database as the local session
+    genres = db.query(Genre).all() # when genres is requested via a GET to this function, sets genre to be ALL genres in the (Genre) table
+    db.close() # Closes the database after the query
+    return genres # Returns the full added genres list to the client. 
+
     
 
 
