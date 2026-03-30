@@ -1,3 +1,4 @@
+// Imports
 import Sidebar from './Sidebar'
 import { useState } from 'react'
 
@@ -6,7 +7,7 @@ function App() {
   return (
     <div>
       <h1>Movie Picker</h1>
-      <Sidebar />
+      <Sidebar setActivePage={setActivePage} />
     </div>
     
   )
