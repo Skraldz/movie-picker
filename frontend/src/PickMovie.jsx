@@ -13,7 +13,9 @@ function PickMovie() {
             <h2>Pick a Movie</h2>
             <select>
                 <option value="">All genres</option>
-                <option value="Action"></option>
+                {genres.map(genre => (
+                    <option key={genre.id} value={genre.genre}>{genre.genre}</option>
+                ))}
             </select>
             <input placeholder="Search actors"/>
         </div>

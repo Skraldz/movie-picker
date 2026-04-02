@@ -5,7 +5,14 @@ from models import Movie, Actor, Genre, Movie_genres, Movie_actors # Imports the
 from tmdb import search_movies, get_movie_details, get_movie_credits # Imports the search movies function from tmdb.py
 from datetime import date # Imports the datetime library
 import random # Imports the random library
+from fastapi.middleware.cors import CORSMiddleware # This library enables Cross-Origin Resource Sharing - Browsers block requests between different origins by default.
 app = FastAPI() # The chosen API for this projects backend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"], # Allows requests to come from the following IP.
+    allow_methods=["*"], # Allows all HTTP methods
+    allow_headers=["*"], # Allows all headers
+)
 
 @app.get("/")       # When someone makes a GET-request to /, run this function
 def root():
