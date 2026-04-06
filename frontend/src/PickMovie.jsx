@@ -6,6 +6,7 @@ function PickMovie() {
     const [maxLength, setMaxLength] = useState('')
     const [releasedFrom, setReleasedFrom] = useState('')
     const [releasedTo, setReleasedTo] = useState('')
+    const [selectedMovie, setSelectedMovie] = useState(null)
     
         function pickMovie(){
             const url = new URL('http://192.168.5.10:8000/movies/pick')
@@ -15,7 +16,7 @@ function PickMovie() {
             if (releasedTo) url.searchParams.append('released_to', releasedTo)
             fetch(url)
                 .then(res => res.json())
-                .then(data => console.log(data))
+                .then(data => setSelectedMovie(data))
         }
 
     useEffect(() => {
@@ -38,6 +39,14 @@ function PickMovie() {
             <input placeholder="Released to" onChange={(e) => setReleasedTo(e.target.value)}/>
             <button onClick={pickMovie}>Pick a Movie for me</button>
 
+            {selectedMovie && (
+                <div>
+                    <h3>{selectedMovie.title}</h3>
+                    <p>Length: {selectedMovie.how_long} minutes</p>
+                    <p>Released: {selectedMovie.released}</p>
+                    <p>Starring: {selectedMovie.actors}</p>
+                </div>
+            )}
         </div>
     )
 }

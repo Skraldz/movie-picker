@@ -135,6 +135,8 @@ def get_genres():
     db.close() # Closes the database after the query
     return genres # Returns the full added genres list to the client. 
 
+
+
     
 
 
