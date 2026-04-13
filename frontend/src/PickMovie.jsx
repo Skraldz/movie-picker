@@ -55,7 +55,13 @@ function PickMovie() {
                 <div>
                     <h3>{selectedMovie.title}</h3>
                     <img src={`https://image.tmdb.org/t/p/w500${tmdbDetails.movie_details.poster_path}`} />
-                    <p>Description: {tmdbDetails.movie_details.overview}</p>
+                    <p>{tmdbDetails.movie_details.overview}</p>
+                    
+                    <p>Starring: {tmdbDetails.movie_credits.cast.slice(0, 10).map(actor => actor.name).join(', ')}</p>
+                    <p>Released: {selectedMovie.released}</p>
+                    <p>Genres: {tmdbDetails.movie_details.genres.map(genre => genre.name).join(', ')}</p>
+                    <p>Length: {selectedMovie.how_long} minutes</p>
+                    <p>TMDB Rating: {tmdbDetails.movie_details.vote_average.toFixed(1)}</p>
                 </div>
             )}
         </div>
