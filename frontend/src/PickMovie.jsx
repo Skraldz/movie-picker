@@ -51,10 +51,11 @@ function PickMovie() {
             <input placeholder="Released to" onChange={(e) => setReleasedTo(e.target.value)}/>
             <button onClick={pickMovie}>Pick a Movie for me</button>
 
-            {selectedMovie && (
+            {tmdbDetails && (
                 <div>
                     <h3>{selectedMovie.title}</h3>
-                    {tmdbDetails && <p>Description: {tmdbDetails.movie_details.overview}</p>}
+                    <img src={`https://image.tmdb.org/t/p/w500${tmdbDetails.movie_details.poster_path}`} />
+                    <p>Description: {tmdbDetails.movie_details.overview}</p>
                 </div>
             )}
         </div>
