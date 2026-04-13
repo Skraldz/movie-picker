@@ -7,6 +7,7 @@ function PickMovie() {
     const [releasedFrom, setReleasedFrom] = useState('')
     const [releasedTo, setReleasedTo] = useState('')
     const [selectedMovie, setSelectedMovie] = useState(null)
+    const [tmdbDetails, setTmdbDetails] = useState(null)
     
         function pickMovie(){
             const url = new URL('http://192.168.5.10:8000/movies/pick')
@@ -23,7 +24,18 @@ function PickMovie() {
         fetch('http://192.168.5.10:8000/genres')
             .then(res => res.json())
             .then(data => setGenres(data))
+
+
     }, [])
+
+    useEffect(() => {
+        if (selectedMovie) {
+        fetch(`http://192.168.5.10:8000/movies/${selectedMovie.tmdb_id}`)
+            .then(res => res.json())
+            .then(data => setTmdbDetails(data))
+        }
+    }, [selectedMovie])
+
     return(
         <div>
             <h2>Pick a Movie</h2>
@@ -42,9 +54,7 @@ function PickMovie() {
             {selectedMovie && (
                 <div>
                     <h3>{selectedMovie.title}</h3>
-                    <p>Length: {selectedMovie.how_long} minutes</p>
-                    <p>Released: {selectedMovie.released}</p>
-                    <p>Starring: {selectedMovie.actors}</p>
+                    {tmdbDetails && <p>Description: {tmdbDetails.movie_details.overview}</p>}
                 </div>
             )}
         </div>

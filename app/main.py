@@ -135,7 +135,11 @@ def get_genres():
     db.close() # Closes the database after the query
     return genres # Returns the full added genres list to the client. 
 
-
+@app.get("/movies/{tmdb_id}")
+def picked_movie_details(tmdb_id: int):
+    response = {"movie_details": get_movie_details(tmdb_id), "movie_credits": get_movie_credits(tmdb_id)}
+    return response
+    
 
     
 
