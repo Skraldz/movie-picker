@@ -1,5 +1,3 @@
-DROP TABLE movies;
-
 CREATE TABLE movies (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255),

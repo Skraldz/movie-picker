@@ -6,11 +6,15 @@ services:
       - movienet
     environment:
       - PUID=1000
-      - GUID=1000
+      - PGID=1000
       - TZ=Europe/Copenhagen
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=movie_db
+      - MYSQL_USER=movie_picker_user
+      - MYSQL_PASSWORD=${MOVIE_PICKER_DB_PASSWORD}
     volumes:
       - ./databases:/config
+      - ./schema.sql:/config/initdb.d/schema.sql:ro
     restart: unless-stopped
 
   backend:
