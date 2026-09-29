@@ -6,7 +6,7 @@ function AddMovie() {
     const [addedMovies, setAddedMovies] = useState([])
 
         function searchMovie(){
-            const url = new URL('http://192.168.5.10:8000/search/')
+            const url = new URL('/api/search/', window.location.origin)
             if (title) url.searchParams.append('query', title)
             fetch(url)
                 .then(res => res.json())
@@ -14,14 +14,14 @@ function AddMovie() {
         }
 
         function addMovie(id){
-            const url = new URL(`http://192.168.5.10:8000/movies?tmdb_id=${id}`)
+            const url = new URL(`/api/movies?tmdb_id=${id}`, window.location.origin)
             fetch(url, {
                 method: 'POST'
             })
         }
 
     useEffect(() => {
-        fetch('http://192.168.5.10:8000/movies')
+        fetch('/api/movies')
             .then(res => res.json())
             .then(data => setAddedMovies(data))
     }, [])

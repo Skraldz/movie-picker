@@ -10,7 +10,7 @@ function PickMovie() {
     const [tmdbDetails, setTmdbDetails] = useState(null)
     
         function pickMovie(){
-            const url = new URL('http://192.168.5.10:8000/movies/pick')
+            const url = new URL('/api/movies/pick', window.location.origin)
             if (selectedGenre) url.searchParams.append('genre', selectedGenre)
             if (maxLength) url.searchParams.append('max_length', maxLength)
             if (releasedFrom) url.searchParams.append('released_from', releasedFrom)
@@ -21,7 +21,7 @@ function PickMovie() {
         }
 
     useEffect(() => {
-        fetch('http://192.168.5.10:8000/genres')
+        fetch('/api/genres')
             .then(res => res.json())
             .then(data => setGenres(data))
 
@@ -30,7 +30,7 @@ function PickMovie() {
 
     useEffect(() => {
         if (selectedMovie) {
-        fetch(`http://192.168.5.10:8000/movies/${selectedMovie.tmdb_id}`)
+        fetch(`/api/movies/${selectedMovie.tmdb_id}`)
             .then(res => res.json())
             .then(data => setTmdbDetails(data))
         }

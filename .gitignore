@@ -3,3 +3,4 @@ databases/
 log/
 venv/
 __pycache__/
+.htpasswd
