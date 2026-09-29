@@ -6,7 +6,7 @@ function AddMovie() {
     const [addedMovies, setAddedMovies] = useState([])
 
         function searchMovie(){
-            const url = new URL('/api/search/', window.location.origin)
+            const url = new URL('/api/search', window.location.origin)
             if (title) url.searchParams.append('query', title)
             fetch(url)
                 .then(res => res.json())
